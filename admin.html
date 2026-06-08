@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bibi Gourmet - Painel Admin (Demonstração)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+    <nav class="bg-slate-800 text-white p-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold tracking-wide text-amber-400">Bibi Admin 🛠️</h1>
+            <div class="space-x-4">
+                <a href="index.html" class="hover:text-amber-200 transition">Quem Somos</a>
+                <a href="cardapio.html" class="hover:text-amber-200 transition">Cardápio</a>
+                <a href="admin.html" class="font-bold border-b-2 border-amber-400 text-amber-400">Admin</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto my-10 px-4 max-w-4xl">
+        
+        <div class="bg-amber-100 border-l-4 border-amber-500 text-amber-900 p-4 rounded-md mb-8 shadow-sm">
+            <h3 class="font-bold">Modo de Demonstração</h3>
+            <p class="text-sm">Este painel simula como será fácil atualizar o cardápio e gerenciar a loja no sistema final em Node.js.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="bg-white p-6 rounded-2xl shadow-md md:col-span-1">
+                <h3 class="text-lg font-bold text-slate-700 mb-4">Adicionar Novo Item</h3>
+                <form id="form-item" onsubmit="adicionarItem(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Nome do Prato</label>
+                        <input type="text" id="nome" required class="mt-1 block w-full rounded-md border-gray-350 bg-gray-50 border p-2 text-sm focus:ring-amber-500 focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Categoria</label>
+                        <select id="categoria" class="mt-1 block w-full rounded-md border-gray-350 bg-gray-50 border p-2 text-sm focus:ring-amber-500">
+                            <option value="Café & Brunch">Café & Brunch</option>
+                            <option value="Almoço/Jantar">Almoço/Jantar</option>
+                            <option value="Pizzas">Pizzas</option>
+                            <option value="Doces & Sobremesas">Doces & Sobremesas</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Preço (R$)</label>
+                        <input type="number" step="0.01" id="preco" required class="mt-1 block w-full rounded-md border-gray-350 bg-gray-50 border p-2 text-sm">
+                    </div>
+                    <button type="submit" class="w-full bg-emerald-600 text-white py-2 rounded-md font-bold hover:bg-emerald-700 transition">Salvar no Cardápio</button>
+                </form>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl shadow-md md:col-span-2">
+                <h3 class="text-lg font-bold text-slate-700 mb-4">Itens Ativos no Cardápio</h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200 text-sm text-left">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-4 py-3 font-semibold text-gray-700">Item</th>
+                                <th class="px-4 py-3 font-semibold text-gray-700">Categoria</th>
+                                <th class="px-4 py-3 font-semibold text-gray-700">Preço</th>
+                                <th class="px-4 py-3 font-semibold text-gray-700">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabela-itens" class="divide-y divide-gray-200">
+                            <tr>
+                                <td class="px-4 py-3 font-medium">Pizza Margherita</td>
+                                <td class="px-4 py-3 text-gray-500">Pizzas</td>
+                                <td class="px-4 py-3">R$ 45,00</td>
+                                <td class="px-4 py-3"><button class="text-red-600 hover:underline" onclick="this.closest('tr').remove()">Excluir</button></td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 font-medium">Combo Brunch</td>
+                                <td class="px-4 py-3 text-gray-500">Café & Brunch</td>
+                                <td class="px-4 py-3">R$ 28,90</td>
+                                <td class="px-4 py-3"><button class="text-red-600 hover:underline" onclick="this.closest('tr').remove()">Excluir</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function adicionarItem(event) {
+            event.preventDefault();
+            const nome = document.getElementById('nome').value;
+            const categoria = document.getElementById('categoria').value;
+            const preco = parseFloat(document.getElementById('preco').value).toFixed(2);
+
+            const tabela = document.getElementById('tabela-itens');
+            const novaLinha = document.createElement('tr');
+
+            novaLinha.innerHTML = `
+                <td class="px-4 py-3 font-medium">${nome}</td>
+                <td class="px-4 py-3 text-gray-500">${categoria}</td>
+                <td class="px-4 py-3">R$ ${preco}</td>
+                <td class="px-4 py-3"><button class="text-red-600 hover:underline" onclick="this.closest('tr').remove()">Excluir</button></td>
+            `;
+
+            tabela.appendChild(novaLinha);
+            document.getElementById('form-item').reset();
+        }
+    </script>
+</body>
+</html>
